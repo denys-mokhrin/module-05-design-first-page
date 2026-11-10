@@ -1,19 +1,24 @@
-import { Button } from "@/components/ui/button"
+import { course, openPractice } from "@/data/course"
+import { CourseHeader } from "@/components/tracker/course-header"
+import { NextUpQueue } from "@/components/tracker/next-up-queue"
+import { ModuleGrid } from "@/components/tracker/module-grid"
 
 export function App() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
+    <div className="min-h-svh bg-background">
+      <main className="mx-auto flex max-w-7xl flex-col gap-10 px-4 py-8 sm:px-8 sm:py-12">
+        <CourseHeader
+          name={course.name}
+          today={new Date()}
+          lessons={course.lessons}
+          practice={course.practice}
+          behind={openPractice(course.modules)}
+        />
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12">
+          <NextUpQueue items={course.queue} />
+          <ModuleGrid modules={course.modules} />
         </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
+      </main>
     </div>
   )
 }
