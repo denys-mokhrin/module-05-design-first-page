@@ -57,6 +57,11 @@ export const course: Course = {
   ],
 }
 
+/** The first module that has not opened yet, shown when the queue is cleared. */
+export function nextOpening(modules: CourseModule[]) {
+  return modules.find((m) => m.status === "upcoming")
+}
+
 /** Practice still open in modules that have already been released. */
 export function openPractice(modules: CourseModule[]) {
   return modules

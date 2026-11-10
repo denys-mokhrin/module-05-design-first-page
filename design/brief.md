@@ -1,61 +1,47 @@
-# Brief: course homework tracker (single page)
+# Design brief
 
-## Subject and user
+Screen: "Next up" queue, the left block of the course homework tracker page
 
-One page that shows where I stand in the course "Agentic Engineering 3.0".
-The user is me, a student who works on homework in the evening after the day job.
-I open the page to answer one question in ten seconds: what do I submit next, and how far behind am I.
-Usually a laptop, sometimes a phone on the way home.
+Current URL: http://localhost:5183/
 
-## Data (typed, no backend, lives in one file)
+Goal: I should see the next thing to submit and where it goes at a glance, without reading
+three lines of text per item, and a finished queue should look finished, not like an empty list.
 
-Header: course name, today's date, two counters: lessons 51 of 104, practice 29 of 76.
+Keep:
 
-Eleven modules. Each module has: number, title, release date, practice submitted, practice total,
-status. Status is one of three values: done, in progress, upcoming.
+- "Mark as submitted" crosses the item out and shows "Submitted" with an "Undo" button; "Undo" brings it back
+- the counter in the block header ("4 to hand in", then "Queue cleared") follows the buttons
+- the first item that is not submitted yet is the visually strongest one
+- the installed `Button` and `Card` from `src/components/ui` and the tokens in `src/index.css`
+- data comes from `src/data/course.ts` as typed props; destination is `"platform" | "telegram"`
 
-| # | Title | Released | Practice | Status |
-|---|---|---|---|---|
-| 1 | How LLMs work | 30 Sep | 4 / 4 | done |
-| 2 | How agents work | 7 Oct | 3 / 3 | done |
-| 3 | Working environment | 14 Oct | 10 / 10 | done |
-| 4 | Prompts, context, boundaries | 21 Oct | 11 / 11 | done |
-| 5 | Tooling, plugins, design system | 28 Oct | 7 / 11 | in progress |
-| 6 | SDLC phase 1 | 4 Nov | 0 / 9 | in progress |
-| 7 | First feature | 11 Nov | 0 / 0 | upcoming |
-| 8 | MCP | 18 Nov | 0 / 0 | upcoming |
-| 9 | Worktrees, PR, review | 25 Nov | 0 / 0 | upcoming |
-| 10 | Subagents and evals | 2 Dec | 0 / 0 | upcoming |
-| 11 | Production | 9 Dec | 0 / 0 | upcoming |
+States:
 
-"Next up" queue, four items. Each item has: lesson, what to hand in, where it goes
-(platform or Telegram), and a button "Mark as submitted".
+- default: four items, the first one emphasized
+- success: an item marked as submitted (crossed out, quiet, with "Undo")
+- empty: all items submitted, the block says the queue is cleared and what opens next
+- loading: N/A (data is a local file)
+- error: N/A
+- disabled: N/A
 
-1. 5.8 Design with Claude: page screenshot next to the brief, platform
-2. 5.9 Figma / Pencil: desktop and mobile screen next to the brief, platform
-3. Module 5 checklist: summary of the module, platform
-4. Capstone, plugin for my own SaaS: plugin repo and PR, Telegram
+Layouts:
 
-## Four dimensions
+- desktop: 1440px
+- mobile: 390px
 
-Typography. The voice of a paper gradebook, not a SaaS dashboard: a serif with character for the
-page title and module titles, a clean sans for everything else, tabular figures for every counter
-and date. No Inter, no Roboto, no Arial.
+Design references:
 
-Color and theme. Light theme by default, dark theme through `.dark`. Use only the tokens already
-in `src/index.css` (supabase theme): `--primary` means "submitted", muted means "upcoming",
-one warning accent for "in progress". If a new color is needed, it goes into the tokens first,
-never as a bare hex in markup.
+- current screenshot: design/current-desktop.png, design/current-mobile.png
+- desktop frame: "Next up / desktop", node `q4z8Y`
+- mobile frame: "Next up / mobile", node `c3J0N4`
+- state frames: "Next up / desktop · submitted" `h80BKq`, "Next up / desktop · empty" `XoPp4`,
+  "Next up / mobile · submitted" `fJsLM`, "Next up / mobile · empty" `NIF9p`
+- Pencil source: design/main-screen.pen
 
-Motion. One restrained moment: progress bars fill once on page load. Nothing else moves.
-Respect `prefers-reduced-motion`.
+Done:
 
-Backgrounds and surfaces. Calm paper-like background from `--background`, modules on `--card`
-with a thin border instead of a heavy shadow. Desktop: the queue on the left as the main thing,
-modules as a dense grid on the right. Mobile: one column, queue first.
-
-## Constraints
-
-Use the installed `Button` and `Card` from `src/components/ui`; add other components only through
-`pnpm dlx shadcn@latest add <name>`, no look-alike primitives. Data enters components as typed
-props, status is a union type. All page text in English.
+- the approved design is implemented in the existing screen;
+- the behavior from the Keep section works;
+- project checks pass;
+- desktop and mobile are checked in the browser;
+- Git diff matches the task.

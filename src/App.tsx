@@ -1,4 +1,4 @@
-import { course, openPractice } from "@/data/course"
+import { course, nextOpening, openPractice } from "@/data/course"
 import { CourseHeader } from "@/components/tracker/course-header"
 import { NextUpQueue } from "@/components/tracker/next-up-queue"
 import { ModuleGrid } from "@/components/tracker/module-grid"
@@ -15,7 +15,7 @@ export function App() {
           behind={openPractice(course.modules)}
         />
         <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12">
-          <NextUpQueue items={course.queue} />
+          <NextUpQueue items={course.queue} opensNext={nextOpening(course.modules)} />
           <ModuleGrid modules={course.modules} />
         </div>
       </main>
